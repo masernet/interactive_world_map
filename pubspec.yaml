@@ -1,6 +1,6 @@
 name: interactive_world_map
 description: "Interactive world map widget for Flutter with pre-generated geometry, pan/zoom, hit testing, and UN geoscheme helpers."
-version: 0.1.2
+version: 0.1.3
 repository: https://github.com/masernet/interactive_world_map
 issue_tracker: https://github.com/masernet/interactive_world_map/issues
 topics:
