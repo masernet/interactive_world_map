@@ -1,5 +1,3 @@
-library interactive_world_map;
-
 export 'src/interactive_world_map.dart';
 export 'src/world_map_controller.dart';
 export 'src/world_map_style.dart';

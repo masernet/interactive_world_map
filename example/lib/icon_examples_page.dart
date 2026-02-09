@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_world_map/interactive_world_map.dart';
 
+int _alpha(double opacity) => (opacity * 255).round();
+Color _withOpacity(Color color, double opacity) =>
+    color.withAlpha(_alpha(opacity));
+
 class IconExamplesPage extends StatelessWidget {
   const IconExamplesPage({super.key});
 
@@ -20,6 +24,10 @@ class IconExamplesPage extends StatelessWidget {
       _IconExample(
         title: 'DE (single)',
         ids: {CountryCode.DE}.toMapIds(),
+        style: const WorldIconStyle(
+          fillColor: Color(0xFF6FA8FF),
+          borderColor: Color(0xFF2F4B7C),
+        ),
       ),
       _IconExample(
         title: 'US (mainland only)',
@@ -117,8 +125,8 @@ class IconExamplesPage extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            scheme.primary.withOpacity(0.08),
-            scheme.surface.withOpacity(0.02),
+            _withOpacity(scheme.primary, 0.08),
+            _withOpacity(scheme.surface, 0.02),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -194,7 +202,7 @@ class _IconExampleCard extends StatelessWidget {
         elevation: 0,
         color: scheme.surface,
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: scheme.outlineVariant.withOpacity(0.6)),
+          side: BorderSide(color: _withOpacity(scheme.outlineVariant, 0.6)),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(

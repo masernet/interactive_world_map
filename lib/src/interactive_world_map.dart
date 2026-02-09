@@ -174,8 +174,6 @@ class _CountryCache {
       return x;
     }
 
-    double diagOfRoot(int r) => _diag(rootBounds[r]);
-
     bool tryUnion(int a, int b) {
       var ra = find(a);
       var rb = find(b);
@@ -286,8 +284,6 @@ class _InteractiveWorldMapState extends State<InteractiveWorldMap>
   List<_CountryCache>? _countries;
 
   Size _viewportSize = Size.zero;
-  FitOptions? _pendingFit;
-
   AnimationController? _fitAnim;
 
   Map<String, List<_CountryPart>>? _renderFilteredParts;
@@ -415,10 +411,7 @@ class _InteractiveWorldMapState extends State<InteractiveWorldMap>
     final mappedIds = _normalizeIdsSet(ids);
     final mappedOptions = _normalizeFitOptions(options);
     _updateRenderFilter(mappedIds, mappedOptions);
-    if (_viewportSize.isEmpty) {
-      _pendingFit = mappedOptions;
-      return;
-    }
+    if (_viewportSize.isEmpty) return;
     _runFit(mappedIds, mappedOptions);
   }
 
@@ -458,8 +451,8 @@ class _InteractiveWorldMapState extends State<InteractiveWorldMap>
     final ty = center.dy - rect.center.dy * scale;
 
     final target = Matrix4.identity()
-      ..translate(tx, ty)
-      ..scale(scale);
+      ..translateByDouble(tx, ty, 0.0, 1.0)
+      ..scaleByDouble(scale, scale, 1.0, 1.0);
 
     final tc = _transform;
 

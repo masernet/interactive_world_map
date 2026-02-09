@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
-
 import 'fit/remote_island_presets.dart';
 import 'geoscheme/map_id_resolver.dart';
 

@@ -3,6 +3,10 @@ import 'package:interactive_world_map/interactive_world_map.dart';
 
 enum _Mode { world, region, subregion, custom }
 
+int _alpha(double opacity) => (opacity * 255).round();
+Color _withOpacity(Color color, double opacity) =>
+    color.withAlpha(_alpha(opacity));
+
 class InteractiveMapDemoPage extends StatefulWidget {
   const InteractiveMapDemoPage({super.key});
 
@@ -182,14 +186,14 @@ class _InteractiveMapDemoPageState extends State<InteractiveMapDemoPage> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            scheme.primary.withOpacity(0.08),
-            scheme.surface.withOpacity(0.02),
+            _withOpacity(scheme.primary, 0.08),
+            _withOpacity(scheme.surface, 0.02),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: scheme.outlineVariant.withOpacity(0.6)),
+        border: Border.all(color: _withOpacity(scheme.outlineVariant, 0.6)),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -255,7 +259,7 @@ class _InteractiveMapDemoPageState extends State<InteractiveMapDemoPage> {
       color: scheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: scheme.outlineVariant.withOpacity(0.5)),
+        side: BorderSide(color: _withOpacity(scheme.outlineVariant, 0.5)),
       ),
       child: ListView(
         padding: const EdgeInsets.all(16),
@@ -294,7 +298,8 @@ class _InteractiveMapDemoPageState extends State<InteractiveMapDemoPage> {
           const SizedBox(height: 12),
           if (_mode == _Mode.region)
             DropdownButtonFormField<UnRegion>(
-              value: _selectedRegion,
+              key: ValueKey('region-${_selectedRegion.name}'),
+              initialValue: _selectedRegion,
               items: _regions
                   .map(
                     (r) => DropdownMenuItem(
@@ -314,7 +319,8 @@ class _InteractiveMapDemoPageState extends State<InteractiveMapDemoPage> {
             ),
           if (_mode == _Mode.subregion) ...[
             DropdownButtonFormField<UnRegion>(
-              value: _selectedRegion,
+              key: ValueKey('subregion-region-${_selectedRegion.name}'),
+              initialValue: _selectedRegion,
               items: _regions
                   .map(
                     (r) => DropdownMenuItem(
@@ -334,7 +340,8 @@ class _InteractiveMapDemoPageState extends State<InteractiveMapDemoPage> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<UnSubregion>(
-              value: _selectedSubregion,
+              key: ValueKey('subregion-${_selectedSubregion?.name ?? 'none'}'),
+              initialValue: _selectedSubregion,
               items: _subregions
                   .map(
                     (r) => DropdownMenuItem(
@@ -568,12 +575,12 @@ class _InfoPill extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: scheme.surface.withOpacity(0.92),
+        color: _withOpacity(scheme.surface, 0.92),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: scheme.outlineVariant.withOpacity(0.6)),
+        border: Border.all(color: _withOpacity(scheme.outlineVariant, 0.6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: _withOpacity(Colors.black, 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
